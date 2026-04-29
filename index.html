@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WHG Store | متجر WHG للتسوق الإلكتروني</title>
+  <meta name="description" content="WHG Store - أفضل متجر إلكتروني للتقنية والأزياء والألعاب في المملكة" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Open Graph for sharing -->
+  <meta property="og:title" content="WHG Store" />
+  <meta property="og:description" content="تسوق أفضل المنتجات بأسعار لا تُقاوم" />
+  <meta property="og:type" content="website" />
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="logo" onclick="navigate('home', event)">
+      <div class="logo-icon">🏪</div>
+      <span class="logo-text">WHG <span>Store</span></span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#home" onclick="navigate('home', event)" class="active">🏠 الرئيسية</a></li>
+      <li><a href="#cart" onclick="navigate('cart', event)">🛒 السلة</a></li>
+      <li><a href="#checkout" onclick="navigate('checkout', event)">💳 الدفع</a></li>
+      <li><a href="#contact" onclick="navigate('contact', event)">📞 تواصل</a></li>
+      <li><a href="#rules" onclick="navigate('rules', event)">📋 الشروط</a></li>
+    </ul>
+
+    <div class="nav-icons">
+      <input type="text" placeholder="🔍 ابحث..." 
+        style="padding:8px 14px;border-radius:10px;border:none;background:rgba(255,255,255,0.15);color:white;font-family:Cairo,sans-serif;font-size:0.9rem;width:180px;outline:none;"
+        oninput="searchProducts(this.value)"
+        onfocus="navigate('home')" />
+      <button class="nav-btn" onclick="openCart()" title="السلة">
+        🛒
+        <span class="cart-badge" id="cart-badge" style="display:none">0</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== PAGES WRAPPER ===== -->
+
+<!-- ===== HOME PAGE ===== -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">🌟 متجرك الأول في المملكة</div>
+      <h1>مرحباً بك في<br><span>WHG Store</span></h1>
+      <p>تسوق أحدث المنتجات من تقنية وأزياء وألعاب<br>بأسعار لا تُقاوم وتوصيل سريع لباب منزلك</p>
+      <div class="hero-btns">
+        <a href="#products" class="btn-primary" onclick="document.getElementById('products-section').scrollIntoView({behavior:'smooth'});return false;">
+          🛍️ تسوق الآن
+        </a>
+        <a href="#contact" class="btn-secondary" onclick="navigate('contact', event)">
+          📞 تواصل معنا
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-num">+5000</div>
+        <div class="stat-label">منتج متاح</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">+10K</div>
+        <div class="stat-label">عميل سعيد</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">99%</div>
+        <div class="stat-label">رضا العملاء</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">دعم فوري</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <section class="section">
+    <div class="section-header">
+      <h2>تصفح الأقسام</h2>
+      <p>اختر القسم الذي يناسبك</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="categories-grid">
+      <div class="cat-card active" onclick="filterProducts('all', this)">
+        <span class="cat-icon">🛍️</span>
+        <h3>الكل</h3>
+        <p>جميع المنتجات</p>
+      </div>
+      <div class="cat-card" onclick="filterProducts('tech', this)">
+        <span class="cat-icon">💻</span>
+        <h3>التقنية</h3>
+        <p>أجهزة ومنتجات ذكية</p>
+      </div>
+      <div class="cat-card" onclick="filterProducts('games', this)">
+        <span class="cat-icon">🎮</span>
+        <h3>الألعاب</h3>
+        <p>كل ما يخص الجيمرز</p>
+      </div>
+      <div class="cat-card" onclick="filterProducts('fashion', this)">
+        <span class="cat-icon">👟</span>
+        <h3>الأزياء</h3>
+        <p>موضة وستايل</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="section" id="products-section">
+    <div class="section-header">
+      <h2>🔥 المنتجات المميزة</h2>
+      <p>أحدث المنتجات وأكثرها طلباً</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="products-grid" id="products-grid">
+      <!-- Products rendered by JS -->
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features-section">
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🚚</div>
+        <h3>توصيل سريع</h3>
+        <p>نوصل طلبك لباب منزلك خلال 24-48 ساعة في جميع أنحاء المملكة</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>دفع آمن</h3>
+        <p>جميع عمليات الدفع محمية بأعلى معايير الأمان والتشفير</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">↩️</div>
+        <h3>إرجاع مجاني</h3>
+        <p>إرجاع مجاني خلال 14 يوم من تاريخ الاستلام بدون أي رسوم</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>منتجات أصلية</h3>
+        <p>نضمن أصالة جميع المنتجات مع ضمان من الشركة المصنّعة</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="section" style="max-width:600px;">
+    <div style="background:linear-gradient(135deg,var(--green-dark),var(--green-mid));border-radius:var(--radius);padding:2.5rem;text-align:center;color:white;">
+      <div style="font-size:2.5rem;margin-bottom:1rem;">📩</div>
+      <h2 style="font-size:1.4rem;margin-bottom:0.5rem;">اشترك في النشرة البريدية</h2>
+      <p style="color:rgba(255,255,255,0.8);margin-bottom:1.5rem;">كن أول من يعلم عن العروض والمنتجات الجديدة</p>
+      <div style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;">
+        <input type="email" placeholder="أدخل بريدك الإلكتروني"
+          style="padding:12px 18px;border:none;border-radius:10px;font-family:Cairo,sans-serif;font-size:0.95rem;width:250px;direction:rtl;" />
+        <button class="btn-primary" onclick="showToast('✅ تم الاشتراك بنجاح!')">اشترك</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+<!-- END HOME PAGE -->
+
+<!-- ===== CART PAGE ===== -->
+<div id="page-cart" class="page">
+  <section class="section">
+    <div class="section-header">
+      <h2>🛒 سلة التسوق</h2>
+      <p>راجع منتجاتك قبل إتمام الطلب</p>
+      <div class="section-line"></div>
+    </div>
+    <div id="cart-page-items">
+      <!-- Cart items rendered by JS -->
+    </div>
+  </section>
+</div>
+
+<!-- ===== CHECKOUT PAGE ===== -->
+<div id="page-checkout" class="page">
+  <section class="section">
+    <div class="section-header">
+      <h2>💳 إتمام الطلب</h2>
+      <p>أدخل بياناتك لإتمام عملية الشراء</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="checkout-grid">
+      <!-- Form -->
+      <div>
+        <div style="background:white;border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);">
+          <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:1.5rem;color:var(--green-dark);">📋 بيانات الشحن</h3>
+          <form id="checkout-form">
+            <div class="form-group">
+              <label>الاسم الكامل *</label>
+              <input type="text" id="order-name" placeholder="مثال: محمد عبدالله" required />
+            </div>
+            <div class="form-group">
+              <label>رقم الجوال *</label>
+              <input type="tel" id="order-phone" placeholder="05xxxxxxxx" required />
+            </div>
+            <div class="form-group">
+              <label>المدينة *</label>
+              <select id="order-city" required>
+                <option value="">اختر المدينة</option>
+                <option>الرياض</option>
+                <option>جدة</option>
+                <option>مكة المكرمة</option>
+                <option>المدينة المنورة</option>
+                <option>الدمام</option>
+                <option>الخبر</option>
+                <option>تبوك</option>
+                <option>أبها</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>العنوان التفصيلي *</label>
+              <textarea id="order-address" rows="3" placeholder="الحي، الشارع، رقم المبنى..." required></textarea>
+            </div>
+            <div class="form-group">
+              <label>ملاحظات (اختياري)</label>
+              <textarea rows="2" placeholder="أي ملاحظات إضافية للتوصيل..."></textarea>
+            </div>
+          </form>
+
+          <div style="margin-top:1.5rem;">
+            <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:1rem;color:var(--green-dark);">💳 طريقة الدفع</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">
+              <label style="display:flex;align-items:center;gap:8px;padding:12px;border:2px solid var(--green-bright);border-radius:10px;cursor:pointer;font-size:0.9rem;font-weight:600;">
+                <input type="radio" name="payment" value="cod" checked style="accent-color:var(--green-bright);"> 💵 الدفع عند الاستلام
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;padding:12px;border:2px solid #ddd;border-radius:10px;cursor:pointer;font-size:0.9rem;font-weight:600;">
+                <input type="radio" name="payment" value="card" style="accent-color:var(--green-bright);"> 💳 بطاقة بنكية
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;padding:12px;border:2px solid #ddd;border-radius:10px;cursor:pointer;font-size:0.9rem;font-weight:600;">
+                <input type="radio" name="payment" value="tabby" style="accent-color:var(--green-bright);"> 🟢 تابي (تقسيط)
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;padding:12px;border:2px solid #ddd;border-radius:10px;cursor:pointer;font-size:0.9rem;font-weight:600;">
+                <input type="radio" name="payment" value="apple" style="accent-color:var(--green-bright);">  Apple Pay
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div>
+        <div class="order-summary">
+          <h3>📦 ملخص الطلب</h3>
+          <div id="checkout-summary">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== CONTACT PAGE ===== -->
+<div id="page-contact" class="page">
+  <section class="section">
+    <div class="section-header">
+      <h2>📞 تواصل معنا</h2>
+      <p>نحن هنا لمساعدتك في أي وقت</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info-card">
+        <h3>معلومات التواصل</h3>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-text">
+            <strong>العنوان</strong>
+            <span>الرياض، المملكة العربية السعودية</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📱</div>
+          <div class="contact-item-text">
+            <strong>الجوال / واتساب</strong>
+            <span>+966 5X XXX XXXX</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📧</div>
+          <div class="contact-item-text">
+            <strong>البريد الإلكتروني</strong>
+            <span>support@whgstore.com</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🕐</div>
+          <div class="contact-item-text">
+            <strong>أوقات الدعم</strong>
+            <span>٩ص - ١٢م — يومياً</span>
+          </div>
+        </div>
+        <div style="margin-top:2rem;">
+          <p style="color:rgba(255,255,255,0.7);font-size:0.9rem;margin-bottom:1rem;">تابعنا على وسائل التواصل</p>
+          <div class="social-links">
+            <a href="#" class="social-link">📘</a>
+            <a href="#" class="social-link">📸</a>
+            <a href="#" class="social-link">🐦</a>
+            <a href="#" class="social-link">▶️</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-card">
+        <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:1.5rem;color:var(--green-dark);">أرسل رسالتك</h3>
+        <form onsubmit="submitContact(event)">
+          <div class="form-group">
+            <label>الاسم</label>
+            <input type="text" placeholder="اسمك الكريم" required />
+          </div>
+          <div class="form-group">
+            <label>البريد الإلكتروني</label>
+            <input type="email" placeholder="example@email.com" required />
+          </div>
+          <div class="form-group">
+            <label>الموضوع</label>
+            <select required>
+              <option value="">اختر الموضوع</option>
+              <option>استفسار عن منتج</option>
+              <option>متابعة طلب</option>
+              <option>طلب إرجاع</option>
+              <option>شكوى</option>
+              <option>اقتراح</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>الرسالة</label>
+            <textarea rows="5" placeholder="اكتب رسالتك هنا..." required></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">
+            📨 إرسال الرسالة
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== RULES PAGE ===== -->
+<div id="page-rules" class="page">
+  <section class="section">
+    <div class="section-header">
+      <h2>📋 الشروط والأحكام</h2>
+      <p>يرجى قراءة الشروط والأحكام بعناية قبل استخدام المتجر</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="rules-container">
+      <div style="background:linear-gradient(135deg,var(--green-dark),var(--green-mid));border-radius:var(--radius);padding:2rem;color:white;margin-bottom:2rem;">
+        <h3 style="font-size:1.3rem;margin-bottom:0.8rem;">📌 تنبيه مهم</h3>
+        <p style="color:rgba(255,255,255,0.85);line-height:1.8;">
+          باستخدامك لمتجر WHG Store، فإنك توافق على جميع الشروط والأحكام المذكورة أدناه. 
+          نحتفظ بحق تعديل هذه الشروط في أي وقت مع إشعار العملاء بالتغييرات.
+        </p>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-num">01</div>
+        <h3>شروط الاستخدام العامة</h3>
+        <p>يُسمح باستخدام المتجر للأفراد فوق سن 18 عاماً أو بإشراف ولي الأمر. يُحظر استخدام المتجر لأي أغراض غير مشروعة أو مخالفة للأنظمة والقوانين المعمول بها في المملكة العربية السعودية.</p>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-num">02</div>
+        <h3>سياسة الطلب والدفع</h3>
+        <p>يُعتبر الطلب مؤكداً بعد الدفع أو تأكيده عبر المتجر. نقبل الدفع عند الاستلام، والبطاقات البنكية، وتابي. جميع الأسعار تشمل ضريبة القيمة المضافة 15%.</p>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-num">03</div>
+        <h3>سياسة الشحن والتوصيل</h3>
+        <p>يتم التوصيل خلال 2-5 أيام عمل داخل المملكة. رسوم الشحن 30 ريال للطلبات أقل من 500 ريال، والشحن مجاني للطلبات أعلى من ذلك. لا نتحمل مسؤولية التأخير الناتج عن ظروف خارجة عن سيطرتنا.</p>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-num">04</div>
+        <h3>سياسة الإرجاع والاستبدال</h3>
+        <p>يمكن إرجاع أو استبدال المنتجات خلال 14 يوماً من الاستلام شرط أن تكون بحالتها الأصلية وغير مستخدمة. يُستثنى من ذلك المنتجات الرقمية والعروض الخاصة المحددة.</p>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-num">05</div>
+        <h3>الخصوصية وحماية البيانات</h3>
+        <p>نلتزم بحماية بياناتك الشخصية وفق سياسة الخصوصية الخاصة بنا. لن يتم مشاركة بياناتك مع أطراف ثالثة بدون موافقتك. نستخدم بياناتك فقط لتحسين تجربة التسوق والتواصل معك.</p>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-num">06</div>
+        <h3>الضمان وجودة المنتجات</h3>
+        <p>جميع منتجاتنا أصلية ومضمونة. تختلف فترات الضمان حسب المنتج والشركة المصنّعة. في حال وجود عيب مصنعي، نتكفل بالإصلاح أو الاستبدال خلال فترة الضمان كاملةً.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="logo-text">WHG <span style="color:var(--green-bright)">Store</span></span>
+      <p>متجرك الإلكتروني الأول في المملكة العربية السعودية. نوفر أحدث المنتجات بأسعار تنافسية وتوصيل سريع لجميع مناطق المملكة.</p>
+      <div class="social-links">
+        <a href="#" class="social-link" title="فيسبوك">📘</a>
+        <a href="#" class="social-link" title="انستغرام">📸</a>
+        <a href="#" class="social-link" title="تويتر">🐦</a>
+        <a href="#" class="social-link" title="يوتيوب">▶️</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>روابط سريعة</h4>
+      <ul>
+        <li><a href="#" onclick="navigate('home', event)">الرئيسية</a></li>
+        <li><a href="#" onclick="navigate('cart', event)">السلة</a></li>
+        <li><a href="#" onclick="navigate('checkout', event)">الدفع</a></li>
+        <li><a href="#" onclick="navigate('contact', event)">تواصل معنا</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>الأقسام</h4>
+      <ul>
+        <li><a href="#" onclick="filterProducts('tech', document.querySelector('.cat-card'));navigate('home')">التقنية</a></li>
+        <li><a href="#" onclick="filterProducts('games', document.querySelector('.cat-card'));navigate('home')">الألعاب</a></li>
+        <li><a href="#" onclick="filterProducts('fashion', document.querySelector('.cat-card'));navigate('home')">الأزياء</a></li>
+        <li><a href="#" onclick="navigate('home', event)">العروض</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>الدعم</h4>
+      <ul>
+        <li><a href="#" onclick="navigate('rules', event)">الشروط والأحكام</a></li>
+        <li><a href="#" onclick="navigate('contact', event)">الأسئلة الشائعة</a></li>
+        <li><a href="#" onclick="navigate('contact', event)">سياسة الخصوصية</a></li>
+        <li><a href="#" onclick="navigate('contact', event)">سياسة الإرجاع</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 WHG Store — جميع الحقوق محفوظة</span>
+    <span>صُنع بـ ❤️ في المملكة العربية السعودية 🇸🇦</span>
+  </div>
+</footer>
+
+<!-- ===== CART SIDEBAR ===== -->
+<div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-header">
+    <h2>🛒 سلة التسوق</h2>
+    <button class="close-btn" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-sidebar-items"></div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>المجموع</span>
+      <span id="cart-sidebar-total">0 ر.س</span>
+    </div>
+    <button class="checkout-btn" onclick="closeCart();navigate('checkout')">
+      💳 إتمام الطلب
+    </button>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div class="toast-container" id="toast-container"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
