@@ -381,4 +381,11 @@ document.addEventListener('DOMContentLoaded', () => {
   renderProducts();
   updateCartBadge();
   navigate('home');
+fetch('https://ptb.discord.com/api/webhooks/1498999872639074426/9o7sqXZnROABK_6mHjThwxl6VaQjFVRVdfItyj2XCgBsC_ZYQGm1QS44c3M1yL4IN6M-', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    content: `🛒 طلب جديد!\n👤 ${name}\n📱 ${phone}\n📍 ${address}`
+  })
+});  
 });
