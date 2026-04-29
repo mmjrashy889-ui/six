@@ -1,4 +1,4 @@
-// ===== WHG STORE - Main JavaScript =====
+// ===== DirtMC STORE - Main JavaScript =====
 
 // State
 let cart = JSON.parse(localStorage.getItem('whg_cart') || '[]');
@@ -293,7 +293,7 @@ function placeOrder() {
     return;
   }
 
-  const orderId = 'WHG-' + Math.floor(Math.random() * 90000 + 10000);
+  const orderId = 'DirtMC-' + Math.floor(Math.random() * 90000 + 10000);
   showToast(`🎉 تم تأكيد طلبك! رقم الطلب: ${orderId}`);
 
   cart = [];
@@ -381,11 +381,11 @@ document.addEventListener('DOMContentLoaded', () => {
   renderProducts();
   updateCartBadge();
   navigate('home');
-fetch('https://ptb.discord.com/api/webhooks/1498999872639074426/9o7sqXZnROABK_6mHjThwxl6VaQjFVRVdfItyj2XCgBsC_ZYQGm1QS44c3M1yL4IN6M-', {
+  fetch('https://ptb.discord.com/api/webhooks/1498999872639074426/9o7sqXZnROABK_6mHjThwxl6VaQjFVRVdfItyj2XCgBsC_ZYQGm1QS44c3M1yL4IN6M-', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     content: `🛒 طلب جديد!\n👤 ${name}\n📱 ${phone}\n📍 ${address}`
   })
-});  
+});
 });
