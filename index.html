@@ -339,6 +339,28 @@ header{
 .rule-item p{font-size:12px;color:var(--muted);line-height:1.85;font-weight:400}
 .rule-item p b{color:var(--text);font-weight:700}
 
+
+.payment-methods-btn{
+  background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(99,102,241,0.08));
+  border:1px solid rgba(99,102,241,0.3);border-radius:10px;
+  padding:9px 15px;color:#a5b4fc;font-family:'Cairo',sans-serif;font-size:12px;
+  font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;
+}
+.payment-methods-btn:hover{background:linear-gradient(135deg,rgba(99,102,241,0.25),rgba(99,102,241,0.15));color:#c7d2fe;border-color:rgba(99,102,241,0.5);transform:translateY(-1px)}
+
+/* Payment Methods Modal */
+#payment-methods-modal .modal-box{max-width:520px}
+.pay-methods-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+.pay-method-card{
+  background:linear-gradient(135deg,rgba(13,40,26,0.9),rgba(8,22,14,0.9));
+  border:1px solid rgba(34,197,94,0.12);border-radius:16px;padding:20px 16px;
+  text-align:center;transition:all .25s;cursor:default;
+}
+.pay-method-card:hover{border-color:rgba(34,197,94,0.3);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,0.4)}
+.pay-method-logo{font-size:22px;font-weight:900;margin-bottom:6px}
+.pay-method-name{font-size:11px;color:var(--muted);font-weight:600}
+.pay-method-desc{font-size:10px;color:rgba(126,203,161,0.5);margin-top:3px;line-height:1.5}
+
 /* ===== FOOTER ===== */
 .store-footer{background:linear-gradient(160deg,#040e09 0%,#071810 60%,#0a1e12 100%);border-top:1px solid rgba(34,197,94,0.08);padding:48px 28px 28px}
 .footer-inner{max-width:1200px;margin:0 auto}
@@ -465,6 +487,7 @@ header{
         </div>
       </div>
       <button class="rules-header-btn" onclick="openRulesModal()">📋 القوانين</button>
+      <button class="payment-methods-btn" onclick="openPaymentMethods()">💳 طرق الدفع</button>
       <button class="admin-btn hidden" id="admin-toggle-btn" onclick="toggleAdmin()">⚙️ الإدارة</button>
       <button class="cart-btn" onclick="openCart()">
         🛒 <span>السلة</span>
@@ -505,44 +528,28 @@ header{
 
   <!-- FEATURES STRIP -->
   <div style="max-width:1200px;margin:20px auto;padding:0 28px">
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px">
-      <div style="background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.12);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:10px">
-        <span style="font-size:22px">⚡</span>
-        <div><div style="font-size:12.5px;font-weight:700;color:var(--xlg)">تسليم سريع</div><div style="font-size:11px;color:var(--muted)">من 5 دقائق</div></div>
-      </div>
-      <div style="background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.12);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:10px">
-        <span style="font-size:22px">🛡️</span>
-        <div><div style="font-size:12.5px;font-weight:700;color:var(--xlg)">موثوق 100%</div><div style="font-size:11px;color:var(--muted)">+500 عميل</div></div>
-      </div>
-      <div style="background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.12);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:10px">
-        <span style="font-size:22px">💳</span>
-        <div><div style="font-size:12.5px;font-weight:700;color:var(--xlg)">طرق دفع متعددة</div><div style="font-size:11px;color:var(--muted)">STC • Barq • Rajhi</div></div>
-      </div>
-      <div style="background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.12);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:10px">
-        <span style="font-size:22px">💬</span>
-        <div><div style="font-size:12.5px;font-weight:700;color:var(--xlg)">دعم فني</div><div style="font-size:11px;color:var(--muted)">عبر ديسكورد</div></div>
-      </div>
-    </div>
-  </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
 
-  <!-- PAYMENT METHODS SECTION -->
-  <div style="max-width:1200px;margin:0 auto 24px;padding:0 28px">
-    <div style="background:linear-gradient(160deg,rgba(11,30,20,0.98),rgba(7,18,12,0.98));border:1px solid rgba(34,197,94,0.12);border-radius:18px;padding:20px 24px">
-      <div style="font-size:13px;font-weight:700;color:var(--muted);text-align:center;margin-bottom:16px;letter-spacing:.5px">طرق الدفع المتاحة</div>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center">
-        <div style="background:rgba(122,55,170,0.1);border:1px solid rgba(122,55,170,0.2);border-radius:12px;padding:10px 20px;display:flex;align-items:center;gap:8px">
-          <span style="font-size:14px;font-weight:800;color:#a855f7">stc</span><span style="font-size:12px;font-weight:700;color:#c084fc">pay</span>
-        </div>
-        <div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:10px 20px;display:flex;align-items:center;gap:8px">
-          <span style="font-size:13px;font-weight:800;color:#60a5fa">Like</span><span style="font-size:12px;font-weight:700;color:#93c5fd">card</span>
-        </div>
-        <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:12px;padding:10px 20px">
-          <span style="font-size:13px;font-weight:800;color:#f87171">barq</span>
-        </div>
-        <div style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:12px;padding:10px 20px">
-          <span style="font-size:12px;font-weight:800;color:var(--xlg)">Al Rajhi Bank</span>
-        </div>
+      <div style="background:linear-gradient(135deg,rgba(74,222,128,0.07),rgba(34,197,94,0.03));border:1px solid rgba(74,222,128,0.18);border-radius:16px;padding:18px 16px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;transition:all .25s" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='rgba(74,222,128,0.35)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(74,222,128,0.18)'">
+        <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,rgba(74,222,128,0.2),rgba(34,197,94,0.1));border:1px solid rgba(74,222,128,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px">⚡</div>
+        <div><div style="font-size:13px;font-weight:800;color:var(--xlg);line-height:1.2">تسليم سريع</div><div style="font-size:10.5px;color:var(--muted);margin-top:3px">من 5 دقائق فقط</div></div>
       </div>
+
+      <div style="background:linear-gradient(135deg,rgba(74,222,128,0.07),rgba(34,197,94,0.03));border:1px solid rgba(74,222,128,0.18);border-radius:16px;padding:18px 16px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;transition:all .25s" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='rgba(74,222,128,0.35)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(74,222,128,0.18)'">
+        <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,rgba(74,222,128,0.2),rgba(34,197,94,0.1));border:1px solid rgba(74,222,128,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px">🛡️</div>
+        <div><div style="font-size:13px;font-weight:800;color:var(--xlg);line-height:1.2">موثوق 100%</div><div style="font-size:10.5px;color:var(--muted);margin-top:3px">+500 عميل راضٍ</div></div>
+      </div>
+
+      <div style="background:linear-gradient(135deg,rgba(74,222,128,0.07),rgba(34,197,94,0.03));border:1px solid rgba(74,222,128,0.18);border-radius:16px;padding:18px 16px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;transition:all .25s;cursor:pointer" onclick="openPaymentMethods()" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='rgba(74,222,128,0.35)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(74,222,128,0.18)'">
+        <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,rgba(74,222,128,0.2),rgba(34,197,94,0.1));border:1px solid rgba(74,222,128,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px">💳</div>
+        <div><div style="font-size:13px;font-weight:800;color:var(--xlg);line-height:1.2">طرق الدفع</div><div style="font-size:10.5px;color:var(--muted);margin-top:3px">STC • Barq • Rajhi</div></div>
+      </div>
+
+      <div style="background:linear-gradient(135deg,rgba(74,222,128,0.07),rgba(34,197,94,0.03));border:1px solid rgba(74,222,128,0.18);border-radius:16px;padding:18px 16px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;transition:all .25s" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='rgba(74,222,128,0.35)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(74,222,128,0.18)'">
+        <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,rgba(74,222,128,0.2),rgba(34,197,94,0.1));border:1px solid rgba(74,222,128,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px">💬</div>
+        <div><div style="font-size:13px;font-weight:800;color:var(--xlg);line-height:1.2">دعم فني</div><div style="font-size:10.5px;color:var(--muted);margin-top:3px">عبر ديسكورد مباشرة</div></div>
+      </div>
+
     </div>
   </div>
   <!-- ADMIN PANEL -->
@@ -737,6 +744,44 @@ header{
         <div class="rule-item"><p>💰 <b>الأسعار:</b> ثابتة — يوجد خصومات للطلبات الكبيرة</p></div>
         <div class="rule-item"><p>🟢 <b>الكردت:</b> يصلك صافي تماماً</p></div>
         <div class="rule-item"><p>🎮 <b>ماين كرافت:</b> أنت المسؤول عن تغيير معلومات الحساب فور استلامه</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== PAYMENT METHODS MODAL ===== -->
+<div id="payment-methods-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-top">
+      <div class="modal-top-text"><h2>💳 طرق الدفع</h2><p>اختر أي طريقة دفع تناسبك</p></div>
+      <button class="modal-close" onclick="closeModal('payment-methods-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="pay-methods-grid">
+        <div class="pay-method-card">
+          <div class="pay-method-logo" style="color:#a855f7">stc<span style="color:#c084fc;font-size:18px">pay</span></div>
+          <div class="pay-method-name">STC Pay</div>
+          <div class="pay-method-desc">تحويل فوري عبر المحفظة الرقمية</div>
+        </div>
+        <div class="pay-method-card">
+          <div class="pay-method-logo" style="color:#60a5fa">Like<span style="color:#93c5fd;font-size:18px">card</span></div>
+          <div class="pay-method-name">Likecard</div>
+          <div class="pay-method-desc">بطاقات رقمية ودفع إلكتروني</div>
+        </div>
+        <div class="pay-method-card">
+          <div class="pay-method-logo" style="color:#f87171">barq</div>
+          <div class="pay-method-name">Barq</div>
+          <div class="pay-method-desc">دفع سريع وآمن</div>
+        </div>
+        <div class="pay-method-card">
+          <div class="pay-method-logo" style="color:var(--xlg);font-size:16px">🏦 الراجحي</div>
+          <div class="pay-method-name">Al Rajhi Bank</div>
+          <div class="pay-method-desc">تحويل بنكي مباشر — IBAN</div>
+        </div>
+      </div>
+      <div style="background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.12);border-radius:12px;padding:14px 16px;margin-top:16px;font-size:12.5px;color:var(--muted);line-height:1.9;text-align:center">
+        💡 بعد التحويل، أرسل صورة الإيصال في تذكرة الدعم على ديسكورد لإتمام طلبك
       </div>
     </div>
   </div>
@@ -1226,6 +1271,7 @@ async function confirmPayment(){
 }
 function closeModal(id){document.getElementById(id).classList.add('hidden');}
 function openRulesModal(){document.getElementById('rules-modal').classList.remove('hidden');}
+function openPaymentMethods(){document.getElementById('payment-methods-modal').classList.remove('hidden');}
 function copyIBAN(){navigator.clipboard.writeText(CFG.IBAN).then(()=>showToast('📋 تم نسخ الـ IBAN'));}
 
 // ===== TOAST =====
