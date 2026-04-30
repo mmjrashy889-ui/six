@@ -1,124 +1,791 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>متجر الخدمات الرقمية</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whg Store | وهج ستور</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --dg:#0a2a18;--mg:#14472a;--ag:#1e6b40;--lg:#22c55e;--xlg:#4ade80;
+  --white:#ffffff;--off:#f0faf5;--card:#ffffffee;
+  --border:#d4edda;--text:#0d2a18;--muted:#4a7a5a;
+  --shadow:0 4px 24px rgba(0,80,30,0.13);
+}
+body{font-family:'Cairo',sans-serif;direction:rtl;background:var(--dg);color:var(--text);min-height:100vh;overflow-x:hidden}
+#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* ===== SCREENS ===== */
+.screen{position:relative;z-index:1;min-height:100vh}
+.hidden{display:none!important}
+
+/* ===== LOGIN ===== */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.login-card{background:var(--card);border-radius:24px;padding:50px 40px;max-width:440px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3),0 0 0 1px rgba(34,197,94,0.2)}
+.login-logo{font-size:56px;margin-bottom:16px;display:block}
+.login-title{font-size:28px;font-weight:900;color:var(--dg);line-height:1.2}
+.login-subtitle{font-size:16px;color:var(--mg);font-weight:600;margin-bottom:8px}
+.login-desc{font-size:14px;color:var(--muted);margin:20px 0 32px;line-height:1.8}
+.discord-btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:16px 24px;background:#5865F2;color:#fff;border:none;border-radius:14px;font-family:'Cairo',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s}
+.discord-btn:hover{background:#4752c4;transform:translateY(-2px);box-shadow:0 8px 24px rgba(88,101,242,0.35)}
+.discord-btn svg{width:24px;height:24px;flex-shrink:0}
+.login-note{font-size:12px;color:#888;margin-top:20px;line-height:1.8}
+.rules-link-btn{background:none;border:1.5px solid var(--border);border-radius:10px;width:100%;padding:12px;font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;margin-top:12px;transition:all .2s}
+.rules-link-btn:hover{border-color:var(--lg);color:var(--ag);background:var(--off)}
+
+/* ===== HEADER ===== */
+header{background:linear-gradient(135deg,var(--dg) 0%,var(--mg) 100%);padding:0 24px;height:70px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(34,197,94,0.2);backdrop-filter:blur(10px)}
+.header-brand{display:flex;align-items:center;gap:12px}
+.brand-icon{font-size:28px}
+.brand-text{display:flex;flex-direction:column}
+.brand-name{font-size:18px;font-weight:900;color:var(--xlg);line-height:1.1}
+.brand-sub{font-size:11px;color:rgba(255,255,255,0.6);font-weight:400}
+.header-actions{display:flex;align-items:center;gap:12px}
+.user-chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border-radius:50px;padding:6px 14px 6px 8px;border:1px solid rgba(255,255,255,0.2)}
+.user-avatar{width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid var(--lg)}
+.user-name{font-size:13px;color:#fff;font-weight:600}
+.cart-btn{position:relative;background:var(--lg);border:none;border-radius:12px;padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;color:var(--dg);font-weight:700;font-size:14px;transition:all .2s}
+.cart-btn:hover{background:var(--xlg);transform:translateY(-1px)}
+.rules-header-btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:8px 16px;color:#fff;font-family:'Cairo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.rules-header-btn:hover{background:rgba(255,255,255,0.2)}
+.cart-badge{position:absolute;top:-6px;right:-6px;background:#ef4444;color:#fff;border-radius:50%;width:20px;height:20px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700}
+
+/* ===== HERO BANNER ===== */
+.hero{background:linear-gradient(135deg,var(--mg) 0%,var(--ag) 100%);padding:40px 24px;margin:0;border-bottom:1px solid rgba(34,197,94,0.15)}
+.hero-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.hero-text h1{font-size:32px;font-weight:900;color:#fff;line-height:1.3}
+.hero-text h1 span{color:var(--xlg)}
+.hero-text p{color:rgba(255,255,255,0.75);font-size:14px;margin-top:8px;line-height:1.9}
+.hero-badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.badge{padding:6px 14px;border-radius:50px;font-size:12px;font-weight:700}
+.badge-green{background:rgba(34,197,94,0.2);color:var(--xlg);border:1px solid rgba(34,197,94,0.3)}
+.badge-white{background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.2)}
+
+/* ===== CATEGORIES ===== */
+.cats-wrap{max-width:1100px;margin:32px auto 0;padding:0 24px}
+.cats-label{font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:12px;font-weight:600}
+.cats{display:flex;gap:10px;flex-wrap:wrap}
+.cat-btn{padding:8px 18px;border-radius:50px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.8);font-family:'Cairo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.cat-btn:hover,.cat-btn.active{background:var(--lg);border-color:var(--lg);color:var(--dg)}
+
+/* ===== PRODUCTS ===== */
+.products-section{max-width:1100px;margin:28px auto 60px;padding:0 24px}
+.section-title{font-size:20px;font-weight:700;color:#fff;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.1);margin-right:8px}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.product-card{background:var(--card);border-radius:18px;padding:22px;cursor:pointer;transition:all .25s;border:1.5px solid var(--border);position:relative;overflow:hidden}
+.product-card:hover{transform:translateY(-4px);box-shadow:var(--shadow),0 0 0 2px var(--lg);border-color:var(--lg)}
+.product-card::before{content:'';position:absolute;top:0;right:0;width:80px;height:80px;background:radial-gradient(circle,rgba(34,197,94,0.12) 0%,transparent 70%)}
+.product-emoji{font-size:36px;margin-bottom:12px;display:block}
+.product-name{font-size:15px;font-weight:700;color:var(--dg);margin-bottom:6px;line-height:1.4}
+.product-desc{font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.8}
+.product-footer{display:flex;align-items:center;justify-content:space-between}
+.product-price{font-size:20px;font-weight:900;color:var(--ag)}
+.product-price span{font-size:13px;font-weight:600;color:var(--muted)}
+.add-btn{background:var(--lg);color:var(--dg);border:none;border-radius:10px;padding:8px 16px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.add-btn:hover{background:var(--xlg)}
+.add-btn.added{background:#dcfce7;color:var(--ag)}
+.qty-control{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.qty-control label{font-size:12px;color:var(--muted);font-weight:600}
+.qty-input{width:70px;border:1.5px solid var(--border);border-radius:8px;padding:6px 10px;font-family:'Cairo',sans-serif;font-size:14px;text-align:center;color:var(--dg)}
+
+/* ===== CART SIDEBAR ===== */
+#overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;backdrop-filter:blur(4px)}
+#cart-sidebar{position:fixed;left:0;top:0;height:100%;width:380px;max-width:95vw;background:#fff;z-index:201;box-shadow:-10px 0 50px rgba(0,0,0,0.3);display:flex;flex-direction:column;transition:transform .3s}
+.cart-header{padding:24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cart-header h2{font-size:20px;font-weight:900;color:var(--dg)}
+.close-btn{background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);padding:4px}
+.close-btn:hover{color:var(--dg)}
+.cart-items{flex:1;overflow-y:auto;padding:16px}
+.cart-empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.cart-empty .empty-icon{font-size:48px;margin-bottom:16px}
+.cart-item{background:var(--off);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.cart-item-emoji{font-size:28px;flex-shrink:0}
+.cart-item-info{flex:1}
+.cart-item-name{font-size:13px;font-weight:700;color:var(--dg)}
+.cart-item-price{font-size:13px;color:var(--ag);font-weight:700;margin-top:2px}
+.cart-item-qty{display:flex;align-items:center;gap:8px;margin-top:6px}
+.qty-btn{width:26px;height:26px;border-radius:6px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:14px;font-weight:700;color:var(--dg);display:flex;align-items:center;justify-content:center}
+.qty-btn:hover{background:var(--lg);border-color:var(--lg);color:var(--dg)}
+.cart-item-del{background:none;border:none;color:#ef4444;cursor:pointer;font-size:16px;padding:4px}
+.cart-footer{padding:20px;border-top:1px solid var(--border)}
+.cart-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.cart-total span{font-size:15px;color:var(--muted)}
+.cart-total strong{font-size:22px;font-weight:900;color:var(--dg)}
+.checkout-btn{width:100%;padding:16px;background:var(--lg);color:var(--dg);border:none;border-radius:12px;font-family:'Cairo',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s}
+.checkout-btn:hover{background:var(--xlg)}
+
+/* ===== MODALS ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.modal-box{background:#fff;border-radius:20px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,0.4)}
+.modal-top{padding:28px 28px 0}
+.modal-top h2{font-size:22px;font-weight:900;color:var(--dg);margin-bottom:4px}
+.modal-top p{font-size:13px;color:var(--muted);margin-bottom:20px}
+.modal-body{padding:20px 28px 28px}
+.modal-close{float:left;background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);padding:4px}
+.order-summary{background:var(--off);border-radius:12px;padding:16px;margin-bottom:20px}
+.order-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:5px 0;border-bottom:1px solid var(--border)}
+.order-row:last-child{border:none;font-size:15px;font-weight:700;color:var(--dg);padding-top:10px}
+.order-row span:first-child{color:var(--muted)}
+
+/* Payment card styles */
+.payment-form{display:flex;flex-direction:column;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:8px}
+.form-label{font-size:13px;font-weight:700;color:var(--dg)}
+.form-input{padding:12px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:'Cairo',sans-serif;font-size:14px;color:var(--dg);transition:border .2s}
+.form-input:focus{outline:none;border-color:var(--lg)}
+.card-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.iban-box{background:linear-gradient(135deg,var(--dg),var(--ag));border-radius:14px;padding:20px;color:#fff;margin-bottom:16px}
+.iban-label{font-size:12px;color:rgba(255,255,255,0.7);margin-bottom:8px}
+.iban-num{font-size:16px;font-weight:700;letter-spacing:1px;word-break:break-all}
+.iban-copy{background:rgba(255,255,255,0.2);border:none;color:#fff;padding:6px 12px;border-radius:8px;font-family:'Cairo',sans-serif;font-size:12px;cursor:pointer;margin-top:10px}
+.iban-copy:hover{background:rgba(255,255,255,0.3)}
+.transfer-note{background:#fef9c3;border:1px solid #fde047;border-radius:10px;padding:12px 16px;font-size:12px;color:#713f12;line-height:1.9;margin-bottom:16px}
+.pay-btn{width:100%;padding:16px;background:var(--lg);color:var(--dg);border:none;border-radius:12px;font-family:'Cairo',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s}
+.pay-btn:hover{background:var(--xlg)}
+.pay-btn:disabled{opacity:.6;cursor:not-allowed}
+
+/* Success */
+.success-box{text-align:center;padding:40px 28px}
+.success-icon{font-size:64px;margin-bottom:20px}
+.success-box h2{font-size:24px;font-weight:900;color:var(--dg);margin-bottom:8px}
+.success-box p{font-size:14px;color:var(--muted);line-height:1.9}
+.success-order{background:var(--off);border-radius:12px;padding:16px;margin:20px 0;text-align:right}
+.success-order-num{font-size:22px;font-weight:900;color:var(--lg)}
+.disc-link-btn{display:inline-flex;align-items:center;gap:8px;background:#5865F2;color:#fff;border:none;border-radius:12px;padding:12px 24px;font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;margin-top:16px}
+
+/* ===== TOAST ===== */
+#toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--dg);color:#fff;padding:12px 24px;border-radius:50px;font-size:14px;font-weight:600;z-index:999;transition:transform .3s;border:1px solid var(--lg);white-space:nowrap}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ===== LOADING ===== */
+#loading{position:fixed;inset:0;background:var(--dg);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+.spinner{width:48px;height:48px;border:4px solid rgba(34,197,94,0.2);border-top-color:var(--lg);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{color:rgba(255,255,255,0.7);font-size:14px}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--lg);border-radius:3px}
+
+/* rules section */
+.rules-section{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:20px;max-width:1100px;margin:28px auto 0;padding:20px 24px}
+.rules-section details{cursor:pointer}
+.rules-section summary{color:rgba(255,255,255,0.8);font-size:14px;font-weight:700;padding:4px 0;list-style:none}
+.rules-section summary::-webkit-details-marker{display:none}
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:14px}
+.rule-item{background:rgba(0,0,0,0.2);border-radius:10px;padding:12px 14px;border-right:3px solid var(--lg)}
+.rule-item p{font-size:12px;color:rgba(255,255,255,0.75);line-height:1.8}
+</style>
 </head>
 <body>
+
+<canvas id="bg"></canvas>
+<div id="loading">
+  <div class="spinner"></div>
+  <p class="loading-text">جار التحميل...</p>
+</div>
+
+<div id="app">
+
+<!-- ===== LOGIN ===== -->
+<div id="login-screen" class="screen hidden">
+  <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px">
+    <div class="login-card">
+      <span class="login-logo">⚡</span>
+      <h1 class="login-title">Whg Store</h1>
+      <p class="login-subtitle">وهج ستور</p>
+      <p class="login-desc">أهلاً بك في متجر وهج!<br>سجّل دخولك بحساب ديسكورد للوصول إلى المتجر والتسوق بسهولة.</p>
+      <button class="discord-btn" onclick="loginWithDiscord()">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.102 18.08.114 18.1.13 18.115a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        تسجيل الدخول بديسكورد
+      </button>
+      <button class="rules-link-btn" onclick="openRulesModal()">📋 اقرأ قوانين المتجر</button>
+      <p class="login-note">سيتم إضافتك تلقائياً لسيرفر الدعم عند تسجيل الدخول</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STORE ===== -->
+<div id="store-screen" class="screen hidden">
   <header>
-    <h1>💎 متجر الخدمات الرقمية 💎</h1>
-    <p>أفضل متجر للكردت، النيترو، الحسابات والاشتراكات — تسليم فوري وأسعار تنافسية</p>
+    <div class="header-brand">
+      <span class="brand-icon">⚡</span>
+      <div class="brand-text">
+        <span class="brand-name">Whg Store</span>
+        <span class="brand-sub">وهج ستور</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="user-chip" id="user-chip">
+        <img class="user-avatar" id="user-avatar" src="" alt="">
+        <span class="user-name" id="user-name-display">-</span>
+      </div>
+      <button class="rules-header-btn" onclick="openRulesModal()">📋 القوانين</button>
+      <button class="cart-btn" onclick="openCart()">
+        🛒 السلة
+        <span class="cart-badge hidden" id="cart-badge">0</span>
+      </button>
+    </div>
   </header>
 
-  <nav>
-    <a href="#rules">القوانين</a>
-    <a href="#products">المنتجات</a>
-    <a href="#order">الطلب والتواصل</a>
-  </nav>
-
-  <section id="rules">
-    <h2>📜 أولاً: قوانين المتجر</h2>
-    <ul>
-      <li>❌ لا يوجد استرجاع للمبلغ بعد إتمام عملية التحويل.</li>
-      <li>⏳ في حال عدم الرد في التذكرة لفترة طويلة، سيتم إغلاقها تلقائيًا.</li>
-      <li>🚫 لا يمكن إلغاء الطلب نهائيًا بعد دفع المبلغ.</li>
-      <li>⚠️ نحن غير مسؤولين عن أي "بلاك ليست" من بوت البروبوت بعد استلام كميات كبيرة.</li>
-      <li>📢 لا نتحمل مسؤولية الطرد أو التبنيد الناتج عن البوستات، ولا يوجد تعويض.</li>
-      <li>🧾 يجب إرسال الإيصال فور التحويل، بعد 3 أيام بدون إيصال يُلغى الطلب تلقائيًا.</li>
-      <li>⏰ التسليم خلال 5 دقائق إلى 48 ساعة كحد أقصى (وغالبًا فوري).</li>
-      <li>💬 لا يوجد ضمان في حال عدم التقييم.</li>
-      <li>💸 الأسعار ثابتة ويمنع التفاوض (خصومات للجملة فقط).</li>
-    </ul>
-    <div class="warning">
-      <b>⚠️ تنبيهات هامة:</b><br>
-      - الكردت يصلك صافي تمامًا.<br>
-      - عند شراء حسابات ماين كرافت، أنت المسؤول عن تغيير معلومات الحساب فور استلامه.
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1>المتجر الأول لخدمات<br><span>ديسكورد والترفيه</span></h1>
+        <p>جميع الخدمات تُسلَّم من 5 دقائق حتى 48 ساعة • أسعار ثابتة وغير قابلة للتفاوض</p>
+        <div class="hero-badges">
+          <span class="badge badge-green">⚡ تسليم سريع</span>
+          <span class="badge badge-green">✅ موثوق</span>
+          <span class="badge badge-white">💰 أسعار منافسة</span>
+          <span class="badge badge-white">🛡️ ضمان الجودة</span>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <section id="products">
-    <h2>🛒 ثانياً: قائمة المنتجات والأسعار</h2>
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px">
+    <div style="margin-top:28px">
+      <div class="cats-label">تصفح حسب الفئة</div>
+      <div class="cats">
+        <button class="cat-btn active" data-cat="all" onclick="filterCat('all',this)">🏪 الكل</button>
+        <button class="cat-btn" data-cat="discord" onclick="filterCat('discord',this)">🚀 بوستات ديسكورد</button>
+        <button class="cat-btn" data-cat="probot" onclick="filterCat('probot',this)">💰 كردت بروبوت</button>
+        <button class="cat-btn" data-cat="nitro" onclick="filterCat('nitro',this)">💎 نيترو</button>
+        <button class="cat-btn" data-cat="minecraft" onclick="filterCat('minecraft',this)">🎮 ماين كرافت</button>
+        <button class="cat-btn" data-cat="accounts" onclick="filterCat('accounts',this)">👤 حسابات ديسكورد</button>
+        <button class="cat-btn" data-cat="subs" onclick="filterCat('subs',this)">🎬 اشتراكات</button>
+      </div>
+    </div>
+  </div>
 
-    <h3>🚀 خدمات الديسكورد (بوستات)</h3>
-    <table>
-      <tr><th>المنتج</th><th>المدة</th><th>السعر</th></tr>
-      <tr><td>14 بوست</td><td>شهر كامل</td><td>17 ريال</td></tr>
-      <tr><td>14 بوست</td><td>3 أشهر</td><td>42 ريال</td></tr>
-    </table>
+  <div class="products-section">
+    <div class="section-title">🏪 المنتجات المتاحة</div>
+    <div class="products-grid" id="products-grid"></div>
+  </div>
+</div>
 
-    <h3>💰 كردت بروبوت</h3>
-    <table>
-      <tr><th>الكمية</th><th>السعر</th></tr>
-      <tr><td>1 مليون كردت</td><td>0.40 ريال</td></tr>
-    </table>
+<!-- ===== CART SIDEBAR ===== -->
+<div id="overlay" class="hidden" onclick="closeCart()"></div>
+<div id="cart-sidebar" class="hidden">
+  <div class="cart-header">
+    <h2>🛒 السلة</h2>
+    <button class="close-btn" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty">
+      <div class="empty-icon">🛒</div>
+      <p>السلة فارغة</p>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>الإجمالي</span>
+      <strong id="cart-total">0 ريال</strong>
+    </div>
+    <button class="checkout-btn" onclick="openCheckout()">إتمام الطلب ←</button>
+  </div>
+</div>
 
-    <h3>💎 نيترو ديسكورد</h3>
-    <table>
-      <tr><th>النوع</th><th>المدة</th><th>السعر</th></tr>
-      <tr><td>نيترو قيمنق (Gift)</td><td>شهر</td><td>25 ريال</td></tr>
-      <tr><td>نيترو قيمنق (Gift)</td><td>سنة</td><td>200 ريال</td></tr>
-      <tr><td>نيترو قيمنق (شحن)</td><td>شهر</td><td>24 ريال</td></tr>
-    </table>
+<!-- ===== CHECKOUT MODAL ===== -->
+<div id="checkout-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-top">
+      <button class="modal-close" onclick="closeModal('checkout-modal')">✕</button>
+      <h2>📋 مراجعة الطلب</h2>
+      <p>تأكد من طلبك قبل الدفع</p>
+    </div>
+    <div class="modal-body">
+      <div class="order-summary" id="order-summary"></div>
+      <button class="pay-btn" onclick="openPayment()">الانتقال للدفع →</button>
+    </div>
+  </div>
+</div>
 
-    <h3>🎮 حسابات ماين كرافت</h3>
-    <table>
-      <tr><th>النوع</th><th>السعر</th></tr>
-      <tr><td>فل اكسس (شرعية)</td><td>45 ريال</td></tr>
-    </table>
+<!-- ===== PAYMENT MODAL ===== -->
+<div id="payment-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-top">
+      <button class="modal-close" onclick="closeModal('payment-modal')">✕</button>
+      <h2>💳 الدفع بالبطاقة / تحويل</h2>
+      <p>حوّل المبلغ إلى الحساب البنكي أدناه</p>
+    </div>
+    <div class="modal-body">
+      <div class="iban-box">
+        <div class="iban-label">رقم الحساب البنكي (IBAN)</div>
+        <div class="iban-num">SA18 3010 0991 1099 5974 2499</div>
+        <button class="iban-copy" onclick="copyIBAN()">📋 نسخ الـ IBAN</button>
+      </div>
+      <div class="transfer-note">
+        ⚠️ <strong>تنبيه:</strong> حوّل المبلغ المطلوب إلى الحساب أعلاه ثم أرسل إيصال التحويل في تذكرة الدعم على الديسكورد.<br>
+        الطلب يُلغى إذا لم يُرسل الإيصال خلال 3 أيام.
+      </div>
+      <div class="payment-form">
+        <div class="form-group">
+          <label class="form-label">اسمك الكامل</label>
+          <input class="form-input" type="text" id="payer-name" placeholder="مثال: أحمد محمد">
+        </div>
+        <div class="form-group">
+          <label class="form-label">المبلغ المُحوَّل (ريال)</label>
+          <input class="form-input" type="number" id="payer-amount" readonly>
+        </div>
+      </div>
+      <br>
+      <button class="pay-btn" id="confirm-pay-btn" onclick="confirmPayment()">✅ تأكيد الطلب وإرسال</button>
+    </div>
+  </div>
+</div>
 
-    <h3>👥 حسابات ديسكورد (إنشاء قديم)</h3>
-    <table>
-      <tr><th>السنة</th><th>السعر</th></tr>
-      <tr><td>2015</td><td>250 ريال</td></tr>
-      <tr><td>2016</td><td>35 ريال</td></tr>
-      <tr><td>2017</td><td>23 ريال</td></tr>
-      <tr><td>2018</td><td>17 ريال</td></tr>
-      <tr><td>2019</td><td>13 ريال</td></tr>
-    </table>
+<!-- ===== RULES MODAL ===== -->
+<div id="rules-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-top">
+      <button class="modal-close" onclick="closeModal('rules-modal')">✕</button>
+      <h2>📋 قوانين المتجر</h2>
+      <p>يرجى القراءة بعناية قبل الشراء</p>
+    </div>
+    <div class="modal-body">
+      <div class="rules-grid" style="margin-top:0">
+        <div class="rule-item"><p>🔴 <b>الاسترجاع:</b> لا يوجد استرجاع للمبلغ بعد إتمام عملية التحويل</p></div>
+        <div class="rule-item"><p>⏱️ <b>خمول التذاكر:</b> في حال عدم الرد في التذكرة لفترة طويلة سيتم إغلاقها تلقائياً</p></div>
+        <div class="rule-item"><p>❌ <b>إلغاء الطلب:</b> لا يمكن إلغاء الطلب نهائياً بعد دفع المبلغ</p></div>
+        <div class="rule-item"><p>⚠️ <b>مسؤولية الكردت:</b> غير مسؤولين عن أي بلاك ليست من بوت البروبوت بعد كميات كبيرة</p></div>
+        <div class="rule-item"><p>📢 <b>البوستات:</b> لا نتحمل مسؤولية طردك للأعضاء أو تبنيد الديسكورد للحسابات</p></div>
+        <div class="rule-item"><p>📄 <b>الإيصال:</b> يجب إرسال الإيصال فور التحويل — بعد 3 أيام يُلغى الطلب تلقائياً</p></div>
+        <div class="rule-item"><p>🕐 <b>مدة التسليم:</b> من 5 دقائق إلى 48 ساعة كحد أقصى (غالباً فوري)</p></div>
+        <div class="rule-item"><p>🛡️ <b>الضمان:</b> لا يوجد ضمان على المنتج في حال عدم التقييم</p></div>
+        <div class="rule-item"><p>💰 <b>الأسعار:</b> ثابتة ويمنع التفاوض — يوجد خصومات للطلبات الكبيرة</p></div>
+        <div class="rule-item"><p>🟢 <b>الكردت:</b> يصلك صافي تماماً</p></div>
+        <div class="rule-item"><p>🎮 <b>ماين كرافت:</b> أنت المسؤول عن تغيير معلومات الحساب فور استلامه</p></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <h3>🎬 اشتراكات ترفيهية</h3>
-    <table>
-      <tr><th>الخدمة</th><th>السعر</th></tr>
-      <tr><td>ChatGPT Plus</td><td>25 ريال</td></tr>
-      <tr><td>شاهد VIP</td><td>15 ريال</td></tr>
-      <tr><td>شاهد مشترك</td><td>10 ريال</td></tr>
-      <tr><td>شاهد (3 أشهر على حسابك)</td><td>30 ريال</td></tr>
-      <tr><td>نتفلكس (بروفايل مشترك)</td><td>15 ريال</td></tr>
-      <tr><td>نتفلكس (بروفايل خاص)</td><td>20 ريال</td></tr>
-    </table>
-  </section>
+<!-- ===== SUCCESS MODAL ===== -->
+<div id="success-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="success-box">
+      <div class="success-icon">✅</div>
+      <h2>تم استلام طلبك!</h2>
+      <p>شكراً لك على طلبك من وهج ستور.<br>انضم للسيرفر وأرسل إيصال التحويل في تذكرة الدعم.</p>
+      <div class="success-order">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:4px">رقم الطلب</div>
+        <div class="success-order-num" id="order-num"></div>
+      </div>
+      <a href="https://discord.gg/qGRNDRVd6t" target="_blank" class="disc-link-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.102 18.08.114 18.1.13 18.115a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        انضم لسيرفر الدعم
+      </a>
+    </div>
+  </div>
+</div>
 
-  <section id="order">
-    <h2>📩 الطلب والتواصل</h2>
-    <form>
-      <label>الاسم</label>
-      <input type="text" placeholder="اكتب اسمك..." required />
-      <label>وسيلة التواصل</label>
-      <input type="text" placeholder="@اسمك أو رقم واتسابك" required />
-      <label>المنتج المطلوب</label>
-      <select required>
-        <option value="">اختر المنتج</option>
-        <option>كردت بروبوت</option>
-        <option>نيترو ديسكورد</option>
-        <option>بوستات ديسكورد</option>
-        <option>اشتراكات ترفيهية</option>
-        <option>حساب ماين كرافت</option>
-        <option>حساب ديسكورد قديم</option>
-      </select>
-      <label>الكمية</label>
-      <input type="number" min="1" required />
-      <label>ملاحظات إضافية</label>
-      <textarea rows="3" placeholder="اكتب ملاحظة إن وُجدت..."></textarea>
-      <button type="submit">إرسال الطلب</button>
-    </form>
-  </section>
+</div><!-- #app -->
 
-  <footer>
-    &copy; 2026 جميع الحقوق محفوظة — متجر الخدمات الرقمية 💎
-  </footer>
+<div id="toast">تم الإضافة إلى السلة ✓</div>
 
-  <script src="script.js"></script>
+<script>
+// ===== CONFIG =====
+const CFG = {
+  CLIENT_ID: '1491814600205668523',
+  BOT_TOKEN: 'MTQ5MTgxNDYwMDIwNTY2ODUyMw.Gg8o1W.uN_N2vAqOlJ_Yc5vvU_RAnnBynomvEWr1AUR_s',
+  GUILD_INVITE: 'qGRNDRVd6t',
+  GUILD_ID: '',
+  IBAN: 'SA1830100991109959742499',
+  WEBHOOK: 'https://ptb.discord.com/api/webhooks/1498999872639074426/9o7sqXZnROABK_6mHjThwxl6VaQjFVRVdfItyj2XCgBsC_ZYQGm1QS44c3M1yL4IN6M-'
+};
+
+// ===== PRODUCTS =====
+const PRODUCTS = [
+  {id:1,cat:'discord',name:'بوستات ديسكورد - شهر كامل',desc:'14 بوست لمدة شهر كامل',price:17,emoji:'🚀'},
+  {id:2,cat:'discord',name:'بوستات ديسكورد - 3 أشهر',desc:'14 بوست لمدة 3 أشهر',price:42,emoji:'🚀'},
+  {id:3,cat:'probot',name:'كردت بروبوت',desc:'كل 1 مليون كردت بروبوت (حدد الكمية)',price:0.40,emoji:'💰',customQty:true},
+  {id:4,cat:'nitro',name:'نيترو قيمنق Gift - شهر',desc:'نيترو ديسكورد قيمنق هدية لمدة شهر',price:25,emoji:'💎'},
+  {id:5,cat:'nitro',name:'نيترو قيمنق Gift - سنة',desc:'نيترو ديسكورد قيمنق هدية لمدة سنة',price:200,emoji:'💎'},
+  {id:6,cat:'nitro',name:'نيترو قيمنق شحن - شهر',desc:'شحن نيترو قيمنق مباشرة على حسابك',price:24,emoji:'💎'},
+  {id:7,cat:'minecraft',name:'حساب ماين كرافت فل اكسس',desc:'حسابات شرعية بصلاحيات كاملة',price:45,emoji:'🎮'},
+  {id:8,cat:'accounts',name:'حساب ديسكورد 2015',desc:'حساب ديسكورد إنشاء 2015',price:250,emoji:'👤'},
+  {id:9,cat:'accounts',name:'حساب ديسكورد 2016',desc:'حساب ديسكورد إنشاء 2016',price:35,emoji:'👤'},
+  {id:10,cat:'accounts',name:'حساب ديسكورد 2017',desc:'حساب ديسكورد إنشاء 2017',price:23,emoji:'👤'},
+  {id:11,cat:'accounts',name:'حساب ديسكورد 2018',desc:'حساب ديسكورد إنشاء 2018',price:17,emoji:'👤'},
+  {id:12,cat:'accounts',name:'حساب ديسكورد 2019',desc:'حساب ديسكورد إنشاء 2019',price:13,emoji:'👤'},
+  {id:13,cat:'subs',name:'ChatGPT Plus',desc:'اشتراك ChatGPT Plus شهري',price:25,emoji:'🤖'},
+  {id:14,cat:'subs',name:'شاهد VIP كبار الشخصيات',desc:'اشتراك شاهد VIP',price:15,emoji:'🎬'},
+  {id:15,cat:'subs',name:'شاهد مشترك',desc:'اشتراك شاهد مشترك',price:10,emoji:'🎬'},
+  {id:16,cat:'subs',name:'شاهد 3 أشهر على حسابك',desc:'اشتراك شاهد 3 أشهر على حسابك',price:30,emoji:'🎬'},
+  {id:17,cat:'subs',name:'نتفلكس بروفايل مشترك',desc:'نتفلكس بروفايل مشترك لمدة شهر',price:15,emoji:'🍿'},
+  {id:18,cat:'subs',name:'نتفلكس بروفايل خاص',desc:'نتفلكس بروفايل خاص لمدة شهر',price:20,emoji:'🍿'},
+];
+
+// ===== STATE =====
+let cart = [];
+let user = null;
+let accessToken = null;
+let orderNum = 0;
+let currentCat = 'all';
+
+// ===== INIT =====
+window.addEventListener('load', async () => {
+  drawBg();
+  const hash = window.location.hash;
+  if (hash.includes('access_token=')) {
+    const params = new URLSearchParams(hash.replace('#',''));
+    accessToken = params.get('access_token');
+    window.history.replaceState({}, document.title, window.location.pathname);
+    await fetchUser();
+  } else {
+    hideLoading();
+    showLogin();
+  }
+});
+
+function hideLoading() {
+  document.getElementById('loading').style.display = 'none';
+}
+function showLogin() {
+  document.getElementById('login-screen').classList.remove('hidden');
+}
+function showStore() {
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('store-screen').classList.remove('hidden');
+  renderProducts(PRODUCTS);
+}
+
+// ===== DISCORD OAUTH =====
+function loginWithDiscord() {
+  const currentUrl = window.location.href.split('?')[0].split('#')[0];
+  const redirectUri = encodeURIComponent(currentUrl);
+  const scopes = encodeURIComponent('identify guilds.join');
+  const url = `https://discord.com/oauth2/authorize?client_id=${CFG.CLIENT_ID}&response_type=token&redirect_uri=${redirectUri}&scope=${scopes}`;
+  window.location.href = url;
+}
+
+async function fetchUser() {
+  try {
+    const r = await fetch('https://discord.com/api/v10/users/@me', {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    });
+    user = await r.json();
+    
+    // Set user UI
+    const avatar = user.avatar
+      ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`
+      : `https://cdn.discordapp.com/embed/avatars/${parseInt(user.discriminator||0)%5}.png`;
+    document.getElementById('user-avatar').src = avatar;
+    document.getElementById('user-name-display').textContent = user.global_name || user.username;
+    
+    // Force join guild
+    await forceJoinGuild();
+    hideLoading();
+    showStore();
+  } catch(e) {
+    hideLoading();
+    showLogin();
+  }
+}
+
+async function forceJoinGuild() {
+  try {
+    // Get guild ID from invite
+    const inviteR = await fetch(`https://discord.com/api/v10/invites/${CFG.GUILD_INVITE}`);
+    const inviteData = await inviteR.json();
+    const guildId = inviteData?.guild?.id;
+    if (!guildId) return;
+    
+    // Add user to guild
+    await fetch(`https://discord.com/api/v10/guilds/${guildId}/members/${user.id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bot ${CFG.BOT_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ access_token: accessToken })
+    });
+  } catch(e) { /* silent */ }
+}
+
+// ===== PRODUCTS =====
+function renderProducts(list) {
+  const grid = document.getElementById('products-grid');
+  grid.innerHTML = '';
+  list.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'product-card';
+    div.innerHTML = `
+      <span class="product-emoji">${p.emoji}</span>
+      <div class="product-name">${p.name}</div>
+      <div class="product-desc">${p.desc}</div>
+      ${p.customQty ? `<div class="qty-control"><label>الكمية (مليون):</label><input class="qty-input" type="number" min="1" value="1" id="qty-${p.id}"></div>` : ''}
+      <div class="product-footer">
+        <div class="product-price">${p.customQty ? (p.price).toFixed(2) : p.price} <span>ريال${p.customQty ? '/مليون' : ''}</span></div>
+        <button class="add-btn" onclick="addToCart(${p.id})">أضف للسلة</button>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = cat === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.cat === cat);
+  renderProducts(filtered);
+}
+
+// ===== CART =====
+function addToCart(productId) {
+  const p = PRODUCTS.find(x => x.id === productId);
+  if (!p) return;
+  
+  let qty = 1;
+  if (p.customQty) {
+    const qtyEl = document.getElementById(`qty-${p.id}`);
+    qty = parseInt(qtyEl?.value || 1);
+    if (qty < 1) qty = 1;
+  }
+  
+  const existing = cart.find(i => i.id === productId);
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    cart.push({ ...p, qty });
+  }
+  
+  updateCartUI();
+  showToast('✅ تم الإضافة إلى السلة');
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(i => i.id !== id);
+  updateCartUI();
+  renderCartItems();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty = Math.max(1, item.qty + delta);
+  updateCartUI();
+  renderCartItems();
+}
+
+function getTotal() {
+  return cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+}
+
+function updateCartUI() {
+  const total = getTotal();
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  document.getElementById('cart-total').textContent = total.toFixed(2) + ' ريال';
+  const badge = document.getElementById('cart-badge');
+  if (count > 0) {
+    badge.textContent = count;
+    badge.classList.remove('hidden');
+  } else {
+    badge.classList.add('hidden');
+  }
+}
+
+function renderCartItems() {
+  const container = document.getElementById('cart-items');
+  if (cart.length === 0) {
+    container.innerHTML = '<div class="cart-empty"><div class="empty-icon">🛒</div><p>السلة فارغة</p></div>';
+    return;
+  }
+  container.innerHTML = cart.map(i => `
+    <div class="cart-item">
+      <span class="cart-item-emoji">${i.emoji}</span>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${i.name}</div>
+        <div class="cart-item-price">${(i.price * i.qty).toFixed(2)} ريال</div>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty(${i.id},-1)">−</button>
+          <span style="font-size:14px;font-weight:700">${i.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${i.id},1)">+</button>
+        </div>
+      </div>
+      <button class="cart-item-del" onclick="removeFromCart(${i.id})">🗑️</button>
+    </div>
+  `).join('');
+}
+
+function openCart() {
+  renderCartItems();
+  document.getElementById('cart-sidebar').classList.remove('hidden');
+  document.getElementById('overlay').classList.remove('hidden');
+}
+
+function closeCart() {
+  document.getElementById('cart-sidebar').classList.add('hidden');
+  document.getElementById('overlay').classList.add('hidden');
+}
+
+// ===== CHECKOUT =====
+function openCheckout() {
+  if (cart.length === 0) { showToast('⚠️ السلة فارغة'); return; }
+  closeCart();
+  
+  const summary = document.getElementById('order-summary');
+  const rows = cart.map(i => `
+    <div class="order-row">
+      <span>${i.emoji} ${i.name} × ${i.qty}</span>
+      <span>${(i.price * i.qty).toFixed(2)} ريال</span>
+    </div>
+  `).join('');
+  summary.innerHTML = rows + `
+    <div class="order-row">
+      <span>الإجمالي</span>
+      <strong>${getTotal().toFixed(2)} ريال</strong>
+    </div>
+  `;
+  document.getElementById('checkout-modal').classList.remove('hidden');
+}
+
+function openPayment() {
+  document.getElementById('checkout-modal').classList.add('hidden');
+  document.getElementById('payer-amount').value = getTotal().toFixed(2);
+  document.getElementById('payment-modal').classList.remove('hidden');
+}
+
+async function confirmPayment() {
+  const name = document.getElementById('payer-name').value.trim();
+  if (!name) { showToast('⚠️ أدخل اسمك الكامل'); return; }
+  
+  const btn = document.getElementById('confirm-pay-btn');
+  btn.disabled = true;
+  btn.textContent = 'جار الإرسال...';
+  
+  orderNum = Math.floor(100000 + Math.random() * 900000);
+  const total = getTotal().toFixed(2);
+  
+  // Build order text
+  const itemsList = cart.map(i => `> **${i.emoji} ${i.name}** × ${i.qty} ← ${(i.price*i.qty).toFixed(2)} ريال`).join('\n');
+  const userMention = user ? `<@${user.id}>` : name;
+  const username = user ? (user.global_name || user.username) : name;
+  
+  // Send webhook
+  try {
+    await fetch(CFG.WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        content: `${userMention} — طلب جديد 🛒`,
+        embeds: [{
+          title: '🛍️ طلب جديد — وهج ستور',
+          color: 0x22c55e,
+          fields: [
+            { name: '👤 العميل', value: `${username}\n${userMention}`, inline: true },
+            { name: '🔢 رقم الطلب', value: `#${orderNum}`, inline: true },
+            { name: '💰 الإجمالي', value: `${total} ريال`, inline: true },
+            { name: '📦 المنتجات', value: itemsList, inline: false },
+          ],
+          footer: { text: 'Whg Store | وهج ستور' },
+          timestamp: new Date().toISOString()
+        }]
+      })
+    });
+  } catch(e) { /* silent */ }
+  
+  document.getElementById('payment-modal').classList.add('hidden');
+  document.getElementById('order-num').textContent = `#${orderNum}`;
+  document.getElementById('success-modal').classList.remove('hidden');
+  
+  cart = [];
+  updateCartUI();
+  btn.disabled = false;
+  btn.textContent = '✅ تأكيد الطلب وإرسال';
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden');
+}
+
+function openRulesModal() {
+  document.getElementById('rules-modal').classList.remove('hidden');
+}
+
+function copyIBAN() {
+  navigator.clipboard.writeText(CFG.IBAN).then(() => showToast('📋 تم نسخ الـ IBAN'));
+}
+
+// ===== TOAST =====
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===== ANIMATED DOT BACKGROUND =====
+function drawBg() {
+  const canvas = document.getElementById('bg');
+  const ctx = canvas.getContext('2d');
+  let W, H, dots = [];
+  
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  
+  const N = 80;
+  for (let i = 0; i < N; i++) {
+    dots.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      r: Math.random() * 2.5 + 1,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      opacity: Math.random() * 0.5 + 0.15
+    });
+  }
+  
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    
+    // Update & draw dots
+    dots.forEach(d => {
+      d.x += d.vx;
+      d.y += d.vy;
+      if (d.x < 0) d.x = W;
+      if (d.x > W) d.x = 0;
+      if (d.y < 0) d.y = H;
+      if (d.y > H) d.y = 0;
+      
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(34,197,94,${d.opacity})`;
+      ctx.fill();
+    });
+    
+    // Draw connections
+    for (let i = 0; i < dots.length; i++) {
+      for (let j = i + 1; j < dots.length; j++) {
+        const dx = dots[i].x - dots[j].x;
+        const dy = dots[i].y - dots[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(dots[i].x, dots[i].y);
+          ctx.lineTo(dots[j].x, dots[j].y);
+          ctx.strokeStyle = `rgba(34,197,94,${0.12 * (1 - dist/120)})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+    
+    requestAnimationFrame(animate);
+  }
+  animate();
+}
+</script>
 </body>
 </html>
