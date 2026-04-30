@@ -1,6 +1,0 @@
-// ملف اختياري لتوسيع التفاعل مستقبلاً
-
-document.querySelector("form").addEventListener("submit", (e) => {
-  e.preventDefault();
-  alert("📦 تم إرسال طلبك بنجاح! سيتم التواصل معك قريبًا.");
-});
